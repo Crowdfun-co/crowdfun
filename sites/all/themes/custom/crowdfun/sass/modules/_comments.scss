@@ -1,0 +1,15 @@
+.campaign-comments {
+	display: none;
+	min-height: 600px;
+
+	@include breakpoint($small) {
+		display: block;
+	}
+
+	@include cf;
+
+	.container {
+		@include container;
+	}
+
+}

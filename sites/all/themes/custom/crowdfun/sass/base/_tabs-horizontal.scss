@@ -1,0 +1,54 @@
+div.horizontal-tabs {
+	border: none;
+
+	ul.horizontal-tabs-list {
+		background-color: $turquoise;
+		border: none;
+		padding-top: ($big-gutter*2);
+
+		li {
+			background-color: transparent;
+			border: none;
+			padding: 0;
+
+			a {
+				padding-top: $small-gutter;
+				padding-bottom: $small-gutter;
+				padding-left: $big-gutter;
+				padding-right: $big-gutter;
+				color: $white;
+				font-size: $p0;
+				background-color: $turquoise-light;
+
+				&:hover{
+					background-color: $turquoise-lighter;
+				}
+			}
+			&.selected {
+				background-color: transparent;
+				border: none;
+				padding: 0;
+
+				a {
+					padding-top: $small-gutter;
+					padding-bottom: $small-gutter;
+					padding-left: $big-gutter;
+					padding-right: $big-gutter;
+					background-color: $white;
+
+					strong{
+						color: $turquoise;
+					}
+					&:hover{
+						background-color: $white;
+					}
+				}
+			}
+		}
+	}
+	.horizontal-tabs-panes {
+		.horizontal-tabs-pane {
+			padding: $big-gutter $small-gutter;
+		}
+	}
+}

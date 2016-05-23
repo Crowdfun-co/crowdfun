@@ -1,0 +1,53 @@
+.l-footer {
+  position: relative;
+  .container {
+    max-width: $medium;
+    width: 100%;
+    margin: 0 auto;
+  }
+  ul:first-child {
+    float: left;
+    li:first-child {
+      margin-left: 0;
+    }
+  }
+  ul:last-child {
+    float: right;
+    li:last-child {
+      margin-right: 0;
+    }
+  }
+  ul {
+    padding: 0;
+    width: 100%;
+
+    @include breakpoint($small) {
+      width: auto;
+    }
+  }
+  ul li {
+    list-style: none;
+    text-align: center;
+
+    @include breakpoint($small) {
+      display: inline-block;
+      text-align: left;
+      margin: 0 5px;
+    }
+    a {
+      font-size: $p0;
+    }
+  }
+  .site-name {
+    text-align: center;
+
+    @include breakpoint($small) {
+      margin-left: 50%;
+      left: -72px;
+      position: absolute;
+    }
+    a {
+      color: $turquoise;
+    }
+  }
+}

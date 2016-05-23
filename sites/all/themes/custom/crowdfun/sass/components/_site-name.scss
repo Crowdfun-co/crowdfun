@@ -1,0 +1,20 @@
+.site-name {
+	text-align: center;
+	padding-bottom: 10px;
+	
+	@include breakpoint($small) {
+		padding-bottom: 0px;
+		text-align: left;
+	}
+
+}
+
+.site-name a {
+	font-family: $theme-font;
+	color: $orange;
+	font-size: $h1;
+
+	&:hover {
+		text-decoration: none;
+	}
+}

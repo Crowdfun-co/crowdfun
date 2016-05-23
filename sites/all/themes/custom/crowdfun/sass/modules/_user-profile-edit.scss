@@ -1,0 +1,9 @@
+.user-register-form,
+.user-profile-form {
+	@include container;
+	
+	.form-actions {
+		padding: $small-gutter;
+		@include container;
+	}
+}

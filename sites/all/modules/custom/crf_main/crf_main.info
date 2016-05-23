@@ -1,0 +1,3 @@
+name = Crowdfun - Main
+description = Provides main features like menu's and custom blocks
+core = 7.x

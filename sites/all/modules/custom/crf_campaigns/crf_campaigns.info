@@ -1,0 +1,3 @@
+name = Crowdfun - Campaigns
+description = Provides custom campaign features like the surface configurator and customized forms
+core = 7.x

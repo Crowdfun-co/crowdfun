@@ -1,0 +1,19 @@
+.l-header{
+	@include container;
+}
+.l-main {
+	width: 100%;
+	max-width: 100%;
+
+	.l-content {
+		width: 100%;
+		max-width: 100%;
+
+		.container {
+			max-width: $large;
+			margin: 0 auto;
+		}
+
+	}
+
+}

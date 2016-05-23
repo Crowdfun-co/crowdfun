@@ -1,0 +1,9 @@
+#block-views-campaign-overview {
+	width: 100%;
+	max-width: $medium;
+	margin: 0 auto;
+
+	@include breakpoint($medium) {
+		width: $medium;
+	}
+}

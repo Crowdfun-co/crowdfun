@@ -1,0 +1,55 @@
+.user-links,
+.campaign-links {
+	max-width: 100%;
+	background: $turquoise;
+	@include breakpoint($small) {
+		margin-bottom: $big-gutter;
+	}
+
+	@include cf;
+
+	ul {
+		padding: 0;
+		margin: 0;
+	}
+
+	li {
+		width: 50%;
+		display: inline-block;
+		float: left;
+		@include breakpoint($small) {
+			width: 25%;
+		}
+
+	}
+
+	a {
+		text-align: center;
+		display: block;
+		color: $white;
+		padding: $small-gutter;
+		font-weight: bold;
+
+		&:hover {
+			background: $turquoise-light;
+		}
+		&.active {
+			background: $white;
+			color: $turquoise;
+		}
+	}
+
+	&:after {
+		clear: both;
+		content: '';
+	}
+
+	.container {
+		@include container;
+	}
+
+	@include breakpoint($small) {
+		display: block;
+	}
+
+}

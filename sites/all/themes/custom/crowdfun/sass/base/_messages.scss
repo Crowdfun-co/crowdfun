@@ -1,0 +1,19 @@
+.messages {
+	@include container;	
+	margin: $small-gutter auto;
+	padding-top: $gutter;
+	padding-bottom: $gutter;
+	border: 0;
+	font-size: $p0;
+	background-position: 15px center;
+
+	&.messages--warning {
+		background-color: $yellow-light;
+	}
+	&.messages--status {
+		background-color: $green;
+	}
+	&.messages--error {
+		
+	}
+}

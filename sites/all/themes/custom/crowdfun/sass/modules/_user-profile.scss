@@ -1,0 +1,122 @@
+.block--crf-users-crf-user-contribution-overview {
+	.container {
+		width: 100%;
+		margin: 0 auto;
+		max-width: $small;
+	}
+}
+.user-profile {
+	padding: $big-gutter 0;
+	background-color: $turquoise;
+	width: 100%;
+
+	@include cf;
+
+	.container {
+		@include container;
+	}
+
+	.user__profile {
+		width: 100%;
+
+		@include breakpoint($small) {
+			width: 50%;
+			float: left;
+		}
+
+		.user__picture {
+			float: left;
+
+			img {
+				width: 100px;
+				height: auto;
+				border-radius: 50%;
+			}
+		}
+		.user__info {
+			float: left;
+			padding-left: $small-gutter;
+
+			.user__name h2{
+				color: $white;
+			}
+			.user__summary {
+				font-size: $p0;
+				color: $white;
+				margin: 1em 0;
+			}
+			.user__tags ul {
+				border-top: 1px solid $turquoise-light;
+				display: block;
+				width: 100%;
+				list-style: none;
+				padding: $small-gutter 0 0;
+				margin: 0;
+
+				li {
+					display: inline-block;
+					color: $turquoise-lighter;
+					font-size: $p0;
+					padding: 0;
+				}
+			}
+			.user__twitter {
+				float: left;
+				width: auto;
+				margin-right: $small-gutter;
+				a {
+					font-size: $p0;
+					color: $turquoise-lighter;
+				}
+			}
+			.user__website {
+				float: left;
+				width: auto;
+
+				a {
+					font-size: $p0;
+					color: $turquoise-lighter;
+				}
+			}
+		}
+	}
+	.user__actions {
+		width: 100%;
+
+		@include breakpoint($small) {
+			width: 50%;
+			float: right;
+		}
+
+		.links {
+			float: right;
+			width: auto;
+			margin: 0;
+			padding: 0;
+			list-style: none;
+
+			li {
+				float: left;
+				margin-right: $small-gutter;
+
+				&:nth-last-child {
+					margin-right: 0;
+				}
+				a {
+					border-radius: $border-radius;
+					padding: 10px 15px;
+					background-color: $turquoise-light;
+					display: block;
+					font-size: $p0;
+					color: $white;
+					text-decoration: none;
+
+					&:hover{
+						color: $turquoise;
+						background-color: $white;
+					}
+				}
+			}
+		}
+	}
+}

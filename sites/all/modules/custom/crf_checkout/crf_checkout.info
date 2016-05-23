@@ -1,0 +1,4 @@
+name = Crowdfun - Checkout
+description = Provides custom checkout feature
+core = 7.x
+dependencies[] = crf_campaigns

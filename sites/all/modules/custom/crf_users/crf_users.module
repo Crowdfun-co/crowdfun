@@ -1,0 +1,193 @@
+<?php
+
+/**
+* Implements hook_block_info().
+*/
+function crf_users_block_info() {
+  $blocks = array();
+  $blocks['crf_user_login'] = array(
+    'info' => t('Crowdfun - User login'),
+    'cache' => DRUPAL_NO_CACHE,
+  );
+  $blocks['crf_user_menu'] = array(
+    'info' => t('Crowdfun - User menu'),
+    'cache' => DRUPAL_NO_CACHE,
+  );
+  $blocks['crf_user_contribution_overview'] = array(
+    'info' => t('Crowdfun - User contribution overview'),
+    'cache' => DRUPAL_CACHE_PER_PAGE,
+  );
+  return $blocks;
+}
+
+/**
+* Implements hook_block_view().
+*/
+function crf_users_block_view($delta) {
+	// Add module JS to head
+	drupal_add_js(drupal_get_path('module', 'crf_users') . '/js/crf_users.js', array('scope' => 'header'));
+	$block = array();
+	// Check wether user is logged in or not
+	if ( !user_is_logged_in() ) {
+	  switch ($delta) {
+	    case 'crf_user_login':
+	    	// Load the form
+        $form = drupal_get_form("user_login");
+        $form['name']['#attributes']['placeholder'] = t('Your E-mail Address');
+        $form['pass']['#attributes']['placeholder'] = t('Your Password');
+
+        unset($form['name']['#title']);
+        unset($form['pass']['#title']);
+        unset($form['name']['#description']);
+        unset($form['pass']['#description']);
+
+        hide($form['links']);
+
+        $options = array(
+          'attributes' => array(
+            'id' => 'user-login-btn',
+          )
+        );
+
+        $output = l('', '/user/login', $options);
+        $output .= '<div class="modal-overlay">';
+        $output .= '<div class="login-form-wrapper">';
+        $output .= '<a href="" class="close">close</a>';
+        $output .= drupal_render($form);
+        $output .= '<div class="register"><a href="/user/register">Register now!</a></div>';
+        $output .= '</div>';
+        $output .= '</div>';
+
+        $block['content'] = $output;
+
+	      break;
+	  }
+	  return $block;
+	} else {
+  	switch ($delta) {
+	    case 'crf_user_menu':
+	    	global $user;
+
+	    	$user_picture = _create_user_picture_url($user->picture);
+
+	    	$options = array(
+	    		'attributes' => array(
+	    			'id' => 'user-login-menu',
+	    			'class' => 'user__picture',
+	    			'style' => 'background-image: url(' . $user_picture . ')'
+	    		)
+	    	);
+
+	    	$output = l('', '/user', $options);
+
+	      $block['content'] = $output;
+	      break;
+      case 'crf_user_contribution_overview':
+        // Grab user from the current uid
+        $uid = arg(1);
+        $user = user_load($uid);
+
+        // Get all contributions from user and store in array
+        $contributions = _create_user_contribution_array($uid);
+
+        $block['title'] = '<none>';
+        $block['content'] = '<section id="backed" class="section"><div class="container">';
+        $output = '';
+
+        // Loop through array and build the html
+        foreach ($contributions as $contribution) {
+          $amount_of_fields = count(json_decode( unserialize($contribution->field_fieldset[LANGUAGE_NONE][0]['value']) ));
+          $output .= '<div class="tile">
+            <div class="user-image">
+              <img src="' . $contribution->user->picture_url . '" alt="">
+            </div>
+            <div class="user-info">
+              <h3>' . $contribution->user->realname . '</h3>
+
+                          <div class="summary"><p>' . $contribution->user->field_summary[LANGUAGE_NONE][0]['safe_value'] . '</p></div>
+
+                          <div class="comment">
+                <p>' . $contribution->field_comment[LANGUAGE_NONE][0]['safe_value'] . '</p>
+              </div>
+
+              <div class="created"><p>' . format_interval((time() - $contribution->created) , 2) . t(" ago") . '</p></div>
+            </div>
+            <div class="perks">';
+
+              if (!empty($amount_of_fields)) :
+                $output .= '<div class="perk"><label>' . $amount_of_fields . '</label><span>Piece(s) of Visual Crowdfunding</span></div>';
+              endif;
+
+              $perks = json_decode( unserialize($contribution->field_additions[LANGUAGE_NONE][0]['value']) );
+
+              foreach ($perks as $perk) :
+                $perk_node = node_load($perk->nid);
+                $output .= '<div class="perk">
+                  <label>'.$perk->quantity.'</label>
+                  <span>'.$perk_node->title.'</span>
+                </div>';
+
+              endforeach;
+            $output .= '</div>
+          </div>';
+        }
+
+        // Put html in block content and return
+        $block['content'] .= $output;
+        $block['content'] .= '</div></div>';
+
+        break;
+	  }
+	  return $block;
+	}
+}
+
+function _create_user_contribution_array($uid) {
+  $query = new EntityFieldQuery();
+
+	$query->entityCondition('entity_type', 'node')
+	  ->entityCondition('bundle', 'contribution')
+	  ->propertyCondition('status', NODE_PUBLISHED)
+    ->propertyCondition('uid', $uid);
+	$result = $query->execute();
+
+	if (isset($result['node'])) {
+	  $contrib_nids = array_keys($result['node']);
+	  $contributions = entity_load('node', $contrib_nids);
+	} else {
+		$contributions = array();
+	}
+
+  foreach ($contributions as $contribution) {
+
+    $user = user_load($contribution->uid);
+
+    if (!empty($user->picture)) {
+      $fid = $user->picture->fid;
+    } else{
+      $fid = 0;
+    }
+
+    $contribution->user = $user;
+    $contribution->user->picture_url = _create_user_picture_url($fid);
+
+  }
+
+  return $contributions;
+}
+
+/**
+ * This function checks for existing profile pitures in the user account
+ * @param $uri (the file uri)
+ * @return $user_picture (url)
+ */
+function _create_user_picture_url($fid) {
+	if ( $fid > 0 ) {
+		$file = file_load($fid);
+		$user_picture = image_style_url('user_picture', $file->uri);
+	} else {
+		$user_picture = '/' . variable_get('user_picture_default', '');
+	}
+
+	return $user_picture;
+}

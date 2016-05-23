@@ -1,0 +1,30 @@
+#block-crf-users-crf-user-menu {
+	float: right;
+	width: 35px;
+	height: 60px;
+	position: relative;
+
+	#user-login-menu {
+		font-size: 0;
+		display: block;
+		width: 35px;
+		height: 35px;
+		margin: 12.5px 0;
+		border-radius: 50%;
+		background-size: cover;
+		color: $gray-light;
+		
+		&:hover {
+			text-decoration: none;
+			color: $gray;
+		}
+	}
+	ul.menu {
+		display: none;
+		position: absolute;
+		z-index: 3;
+		right: 0;
+		top: 100%;
+		width: 150px;
+	}
+}
