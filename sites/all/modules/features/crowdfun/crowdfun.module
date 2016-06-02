@@ -1,7 +1,0 @@
-<?php
-/**
- * @file
- * Code for the Crowdfun feature.
- */
-
-include_once 'crowdfun.features.inc';

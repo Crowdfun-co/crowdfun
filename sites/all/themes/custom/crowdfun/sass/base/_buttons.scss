@@ -1,9 +1,0 @@
-.form-submit {
-	@extend %btn-default;
-
-	&.disabled {
-		background-color: $gray-light;
-		cursor: not-allowed;
-		pointer-events: none;
-	}
-}
